@@ -49,7 +49,7 @@ def load_movies():
 
         # If/else handles formatting the release date takes string returns Datetime object
         if released_at:
-            released_at = datetime.datetime.strptime(released_at, "%d-%b-%Y")
+            released_at = datetime.strptime(released_at, "%d-%b-%Y")
 
         else:
             released_at = None

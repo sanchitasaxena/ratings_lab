@@ -37,7 +37,7 @@ class Movie(db.Model):
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     title = db.Column(db.String(75))
     released_at = db.Column(db.DateTime)
-    imbd_url = db.Column(db.String(100))
+    imdb_url = db.Column(db.String(100))
 
 class Rating(db.Model):
     """ Table linking primary keys to score."""
