@@ -35,25 +35,37 @@ class Movie(db.Model):
     __tablename__ = "movies"
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String(75))
+    title = db.Column(db.String(200))
     released_at = db.Column(db.DateTime)
-    imdb_url = db.Column(db.String(100))
+    imdb_url = db.Column(db.String(500))
 
 class Rating(db.Model):
     """ Table linking primary keys to score."""
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer,
-                         db.ForeignKey('movies.movie_id'))
-    user_id = db.Column(db.Integer,
-                        db.ForeignKey('users.user_id'))
+    movie_id = db.Column(db.Integer)
+        # ,
+        #                  db.ForeignKey('movies.movie_id'))
+    user_id = db.Column(db.Integer)
+        # ,
+        #                 db.ForeignKey('users.user_id'))
     score = db.Column(db.Integer)
     
 
-    user = db.relationship('User', backref='users')
-    movie = db.relationship('Movie', backref='movies') 
+    # user = db.relationship('User', 
+    #                         backref=db.backref('users', 
+    #                                            order_by=rating_id))
+
+    # movie = db.relationship('Movie', 
+    #                         backref=db.backref('movies',
+    #                         order_by=rating_id)) 
     
+    def __repr__(self):
+        """Provide helpful representation when printed"""
+
+        s = "<Rating rating_id=%s movie_id=%s user_id=%s score=%s>"
+        return s % (self.rating_id, self.movie_id, self.user_id, self.score)
 ##############################################################################
 # Helper functions
 

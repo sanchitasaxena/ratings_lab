@@ -45,7 +45,7 @@ def load_movies():
 
     for row in open("seed_data/u.item"):
         row = row.rstrip()
-        movie_id, title, released_at,empty, imdb_url = row.split("|")[:5]
+        movie_id, title, released_at, empty, imdb_url = row.split("|")[:5]
 
         # If/else handles formatting the release date takes string returns Datetime object
         if released_at:
@@ -76,17 +76,19 @@ def load_ratings():
     print "Ratings"
 
     Rating.query.delete()
-
+    i = 0
     for row in open("seed_data/u.data"):
         row = row.rstrip()
-        rating_id, movie_id, user_id, score = row.split(" ")
+        movie_id, user_id, score, timestamp = row.split()
 
-        rating = Rating(rating_id=rating_id,
-                        movie_id=movie_id,
+        rating = Rating(movie_id=movie_id,
                         user_id=user_id,
                         score=score)
-
+        i += 1
         db.session.add(rating)
+
+        if i%100 == 0:
+            print i
 
     db.session.commit()
 
