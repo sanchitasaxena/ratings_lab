@@ -34,8 +34,6 @@ class User(db.Model):
 
         return "<User user_id=%s email=%s>" % (self.user_id, self.email)
 
-# Put your Movie and Rating model classes here.
-
 class Movie(db.Model):
     """Movie information ."""
     __tablename__ = "movies"
@@ -51,36 +49,36 @@ class Movie(db.Model):
                          nullable=True)
 
 class Rating(db.Model):
-    """ Table linking primary keys to score."""
+    """ Rating information."""
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, 
                           autoincrement=True, 
                           primary_key=True)
     movie_id = db.Column(db.Integer,
+                         db.ForeignKey('movies.movie_id'),
                          nullable=False)
-        # ,
-        #                  db.ForeignKey('movies.movie_id'))
     user_id = db.Column(db.Integer,
+                        db.ForeignKey('users.user_id'),
                         nullable=False)
-        # ,
-        #                 db.ForeignKey('users.user_id'))
     score = db.Column(db.Integer,
                       nullable=False)
     
+    # Define relationship between rating and user objects
+    user = db.relationship('User', 
+                            backref=db.backref('ratings', 
+                                               order_by=rating_id))
 
-    # user = db.relationship('User', 
-    #                         backref=db.backref('users', 
-    #                                            order_by=rating_id))
-
-    # movie = db.relationship('Movie', 
-    #                         backref=db.backref('movies',
-    #                         order_by=rating_id)) 
+    # Define relationship between rating and movie objects
+    movie = db.relationship('Movie', 
+                            backref=db.backref('ratings',
+                            order_by=rating_id)) 
     
     def __repr__(self):
         """Provide helpful representation when printed"""
 
         s = "<Rating rating_id=%s movie_id=%s user_id=%s score=%s>"
+
         return s % (self.rating_id, self.movie_id, self.user_id, self.score)
 ##############################################################################
 # Helper functions
