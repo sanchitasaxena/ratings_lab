@@ -45,7 +45,7 @@ def load_movies():
 
     for row in open("seed_data/u.item"):
         row = row.rstrip()
-        movie_id, title, released_at, imdb_url = row.split("|")
+        movie_id, title, released_at,empty, imdb_url = row.split("|")[:5]
 
         # If/else handles formatting the release date takes string returns Datetime object
         if released_at:
