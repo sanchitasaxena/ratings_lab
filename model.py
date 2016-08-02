@@ -17,11 +17,17 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
-    age = db.Column(db.Integer, nullable=True)
-    zipcode = db.Column(db.String(15), nullable=True)
+    user_id = db.Column(db.Integer, 
+                        autoincrement=True, 
+                        primary_key=True)
+    email = db.Column(db.String(64), 
+                      nullable=True)
+    password = db.Column(db.String(64), 
+                         nullable=True)
+    age = db.Column(db.Integer, 
+                    nullable=True)
+    zipcode = db.Column(db.String(15),
+                        nullable=True)
 
     def __repr__(self):
         """Provde helpful representation when printed."""
@@ -34,23 +40,33 @@ class Movie(db.Model):
     """Movie information ."""
     __tablename__ = "movies"
 
-    movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String(200))
-    released_at = db.Column(db.DateTime)
-    imdb_url = db.Column(db.String(500))
+    movie_id = db.Column(db.Integer, 
+                         autoincrement=True, 
+                         primary_key=True)
+    title = db.Column(db.String(200),
+                      nullable=False)
+    released_at = db.Column(db.DateTime,
+                            nullable=False)
+    imdb_url = db.Column(db.String(500),
+                         nullable=True)
 
 class Rating(db.Model):
     """ Table linking primary keys to score."""
     __tablename__ = "ratings"
 
-    rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer)
+    rating_id = db.Column(db.Integer, 
+                          autoincrement=True, 
+                          primary_key=True)
+    movie_id = db.Column(db.Integer,
+                         nullable=False)
         # ,
         #                  db.ForeignKey('movies.movie_id'))
-    user_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer,
+                        nullable=False)
         # ,
         #                 db.ForeignKey('users.user_id'))
-    score = db.Column(db.Integer)
+    score = db.Column(db.Integer,
+                      nullable=False)
     
 
     # user = db.relationship('User', 
