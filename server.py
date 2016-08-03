@@ -31,7 +31,32 @@ def user_list():
     """Show list of users."""
 
     users = User.query.all()
-    return render_template("user_list.html", users=users)
+    return render_template('user_list.html', users=users)
+
+@app.route('/register_form', methods=["GET"])
+def register_form():
+    """ Verifies if user is already in db, if not shows registration page."""
+    # Get user input from form submission, send to db and query against it
+    user_info = request.args.get('email')
+    users = User.query.all()
+
+    # If user's email exists in the db, send to homepage
+    # Else redirect them to the registration page
+    if user_info in users:
+        return redirect('/')
+    else:
+        return render_template('/register_form.html')
+
+@app.route('/register_form', methods=["POST"])
+def register_process():
+    """ Allows user to register with email and password. """
+
+    user_info = request.form.get('email','password')
+
+    # Insert a new row into the user database with those attributes
+    # Then take to homepage
+    return redirect('/')
+
 
 
 if __name__ == "__main__":
