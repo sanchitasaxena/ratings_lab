@@ -3,10 +3,11 @@
 <html>
 <head>
     <title>Ratings</title>
-    {% with messages = get_flashed_messages() %} {% endwith %}
 </head>
 <body>
   Ratings
+  {% with messages = get_flashed_messages() %} {% endwith %}
+
   <hr>
 
   {% block content %} put your content here {% endblock %}

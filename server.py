@@ -33,36 +33,38 @@ def user_list():
     users = User.query.all()
     return render_template('user_list.html', users=users)
 
-@app.route('/login', methods=["GET"])
+@app.route('/login_form')
 def show_login_form():
+    """Displays login form to user."""
+    return render_template('login_form.html')
+
+
+@app.route('/login', methods=["POST"])
+def login_process():
     """ Verifies if user is already in db, if not shows registration page."""
     # Get user input from form submission, send to db and query against it
-    email = request.args['email']
-    password = request.args['password']
+    email = request.form.get('email')
+    password = request.form.get('password')
     
+    user = User.query.filter(User.email == email).first() 
 
-    users = User.query.all()
+    if not user:
+        flash('You are not in our system, please create an account.')
+        return render_template('/register_form.html') 
 
     # If user's email exists in the db, send to homepage
-
-    # Else redirect them to the registration page
-    if email in users:
-        #and email matches password <- for later
-        # Add email to session
+    if user.password == password:
+        # Add email to session and send to user profile page
         session['email'] = email
         flash('You are successfully signed in')
-        return redirect('/')
-        
+        return redirect('/users/%d', user.user_id)
+
+    # If user is in system and password doesn't match, take back to login page
     else:
-        flash('You are not in our system, please create an account.')
-        return render_template('/register_form.html')
+        flash('Incorrect password, try again')
+        return redirect('/login_form')
 
-@app.route('/login', methods=[''])
-def login_session():
-    """Adds user to session. Redirects user to user page."""
-
-    return redirect('/users/%s', user)
-
+        
 @app.route('/register_form')
 def show_register_form():
     """Displays register form to user."""
@@ -97,12 +99,18 @@ def register_process():
 
     return response
 
+@app.route('/users/<user_id>')
+def show_user_profile():
+    """Shows the user profile page."""
+
+    return render_template('user_profile.html')
+
 
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = False
+    app.debug = True
 
     connect_to_db(app)
 
