@@ -33,10 +33,29 @@ def user_list():
     users = User.query.all()
     return render_template('user_list.html', users=users)
 
+
+@app.route('/movies')
+def movie_list():
+    """Show list of movies."""
+
+    movies = Movie.query.all()
+    return render_template('movie_list.html', movies=movies)
+
+
 @app.route('/login_form')
 def show_login_form():
     """Displays login form to user."""
     return render_template('login_form.html')
+
+@app.route('/movies/<int:movie_id>')
+def show_movie_profile(movie_id):
+    """Shows the movie profile page."""
+
+    movies = Movie.query.filter_by(movie_id=movie_id).all()
+
+    # Pass variables to Jinja in order to dispaly on the internet
+    return render_template('movie_profile.html', movies=movies)
+
 
 
 @app.route('/login', methods=["POST"])
