@@ -64,6 +64,11 @@ def login_process():
         flash('Incorrect password, try again')
         return redirect('/login_form')
 
+@app.route('/logout')
+def logout_process():
+    """Logs user out, returns user to homepage."""
+    session.pop('email')
+    return redirect('/')
         
 @app.route('/register_form')
 def show_register_form():
