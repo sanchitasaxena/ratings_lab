@@ -5,8 +5,19 @@
 
 <!-- Show movies user has rated -->
 
-Hi User this is your profile
+Hi {{ user.email }} this is your profile.
 
-{{% email %}}
+User Info:
+Age: {{ user.age }}
+Zipcode: {{ user.zipcode }}
 
+<!-- For loop iterating over list of movies user has rated and returning the movie name and user's rating for that movie -->
+<ul>
+{% for movie in user_ratings %}
+        <li>
+            Movie: <a href='/movie/{{movie.id}}'>{{ movie.title }}</a> |
+            Rating: {{ movie.score}}
+        </li>
+    {% endfor %}
+</ul>
 {% endblock %}

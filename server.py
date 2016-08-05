@@ -99,11 +99,28 @@ def register_process():
 
     return response
 
-@app.route('/users/<user_id>')
-def show_user_profile():
+@app.route('/users/<int:user_id>')
+def show_user_profile(user_id):
     """Shows the user profile page."""
 
-    return render_template('user_profile.html')
+    user = User.query.filter_by(user_id=user_id).first()
+    # query list of ratings for each movie rated by user
+    ratings = Rating.query.filter_by(user_id=user_id).all()
+
+    # Takes user id, finds all movies user has rated
+    # Returns list of dictionaries containing movie title, movie score, movie id
+    user_ratings = []
+    for rating in ratings:
+        movie_title = Movie.query.filter_by(movie_id=rating.movie_id).one().title
+        movie_score = rating.score
+        movie = {}
+        movie['title'] = movie_title
+        movie['score'] = movie_score
+        movie['id'] = rating.movie_id
+        user_ratings.append(movie)
+
+    # Pass variables to Jinja in order to dispaly on the internet
+    return render_template('user_profile.html', user=user, user_ratings=user_ratings)
 
 
 
