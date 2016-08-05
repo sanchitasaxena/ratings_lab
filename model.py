@@ -44,7 +44,7 @@ class Movie(db.Model):
     title = db.Column(db.String(200),
                       nullable=False)
     released_at = db.Column(db.DateTime,
-                            nullable=False)
+                            nullable=True)
     imdb_url = db.Column(db.String(500),
                          nullable=True)
 
